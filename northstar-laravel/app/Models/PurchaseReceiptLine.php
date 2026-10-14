@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class PurchaseReceiptLine extends Model
+{
+    public $timestamps = false;
+
+    protected $fillable = ['purchase_order_item_id', 'quantity', 'unit_cost'];
+
+    protected function casts(): array
+    {
+        return ['quantity' => 'integer', 'unit_cost' => 'float'];
+    }
+
+    public function item(): BelongsTo
+    {
+        return $this->belongsTo(PurchaseOrderItem::class, 'purchase_order_item_id');
+    }
+}

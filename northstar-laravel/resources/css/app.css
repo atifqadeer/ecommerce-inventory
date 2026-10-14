@@ -1,0 +1,202 @@
+@import 'tailwindcss';
+
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../**/*.vue';
+
+/* Theme follows the `.dark` class on <html>, set from the user's saved choice or OS preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  color-scheme: light;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled), [role='button'] {
+    cursor: pointer;
+  }
+  /* Native dropdown lists take their colours from the <select>. A transparent select would leave
+     the list with the OS default (dark on Windows) behind dark text, so options only showed on hover. */
+  select option,
+  select optgroup {
+    background-color: var(--card);
+    color: var(--card-foreground);
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-border bg-card;
+  }
+  .input {
+    @apply w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-indigo-400 focus:ring-3 focus:ring-indigo-500/15;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-rose-200 px-3 py-2 text-sm font-medium text-rose-600 transition hover:bg-rose-50 disabled:opacity-40 dark:border-rose-900 dark:hover:bg-rose-950/40;
+  }
+  .label {
+    @apply block text-sm font-medium;
+  }
+  .field-error {
+    @apply mt-1 text-xs text-rose-600;
+  }
+  .eyebrow {
+    @apply text-sm font-medium text-indigo-600 dark:text-indigo-400;
+  }
+  .page-title {
+    @apply mt-1 text-2xl font-semibold tracking-tight;
+  }
+  .table-head {
+    @apply border-b border-border bg-muted/30 text-[11px] uppercase tracking-wide text-muted-foreground;
+  }
+}
+
+/* Product tour (driver.js) themed to match the app. Unlayered so it overrides driver.js's own CSS. */
+.driver-popover.northstar-tour {
+  --driver-popover-font-family: var(--font-sans);
+  max-width: 340px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * 1.4);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 20px 40px -12px rgb(15 23 42 / 0.35);
+}
+.northstar-tour .driver-popover-title {
+  padding-right: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.northstar-tour .driver-popover-description {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+.northstar-tour .driver-popover-close-btn {
+  top: 10px;
+  right: 8px;
+  color: var(--muted-foreground);
+}
+.northstar-tour .driver-popover-close-btn:hover,
+.northstar-tour .driver-popover-close-btn:focus {
+  color: var(--foreground);
+}
+.northstar-tour .driver-popover-footer {
+  margin-top: 18px;
+}
+.northstar-tour .driver-popover-progress-text {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.northstar-tour .driver-popover-footer button {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 500;
+  text-shadow: none;
+}
+.northstar-tour .driver-popover-footer button:hover {
+  background-color: var(--muted);
+}
+.northstar-tour .driver-popover-footer .driver-popover-next-btn {
+  border-color: #4f46e5;
+  background-color: #4f46e5;
+  color: #fff;
+}
+.northstar-tour .driver-popover-footer .driver-popover-next-btn:hover {
+  background-color: #4338ca;
+}
+.northstar-tour .driver-popover-navigation-btns button + button {
+  margin-left: 6px;
+}
+.northstar-tour .driver-popover-arrow {
+  border-color: transparent;
+}
+.northstar-tour .driver-popover-arrow-side-left { border-left-color: var(--card); }
+.northstar-tour .driver-popover-arrow-side-right { border-right-color: var(--card); }
+.northstar-tour .driver-popover-arrow-side-top { border-top-color: var(--card); }
+.northstar-tour .driver-popover-arrow-side-bottom { border-bottom-color: var(--card); }
